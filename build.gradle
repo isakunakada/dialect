@@ -1,0 +1,58 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+  	// GitHub Packageを利用するために'maven-publish'を追記
+  	id 'maven-publish'
+}
+
+group = 'com.inusufforn'
+version = '0.0.1'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+// Spring スターター・プロジェクトでプロジェクトを生成、bootJarを無効化し、通常Spring Bootでは無効化されているjarを有効化
+// デフォルトで生成されるDialectApplication.java、および、application.propertiesも不要なので削除
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+    // xxx-plain.jarを生成しないようにする設定
+    archiveClassifier = ''
+}
+
+publishing {
+    repositories {
+        maven {
+            name = 'GitHubPackages'
+            url = uri('https://maven.pkg.github.com/isakunakada/dialect')
+            credentials {
+                username = project.hasProperty('username') ? project.username : ''
+                password = project.hasProperty('token') ? project.token : ''
+            }
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            artifact jar
+        }
+    }
+}

@@ -45,8 +45,8 @@ publishing {
             name = 'GitHubPackages'
             url = uri('https://maven.pkg.github.com/isakunakada/dialect')
             credentials {
-                username = project.hasProperty('username') ? project.username : ''
-                password = project.hasProperty('token') ? project.token : ''
+                username = project.hasProperty('username') ? project.username : System.getenv("GITHUB_ACTOR")
+                password = project.hasProperty('token') ? project.token : System.getenv("GITHUB_TOKEN")
             }
         }
     }

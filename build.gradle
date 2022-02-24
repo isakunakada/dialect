@@ -6,7 +6,7 @@ plugins {
   	id 'maven-publish'
 }
 
-group = 'com.inusufforn'
+group = 'com.github.isakunakada'
 version = '0.0.1'
 sourceCompatibility = '17'
 
